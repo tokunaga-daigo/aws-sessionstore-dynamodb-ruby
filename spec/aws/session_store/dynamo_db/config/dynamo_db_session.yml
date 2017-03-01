@@ -17,8 +17,8 @@ test:
   table_name: NewTable
   table_key: Somekey
   consistent_read: true
-  AWS_ACCESS_KEY_ID: FakeKey
-  AWS_SECRET_ACCESS_KEY: Secret
-  AWS_REGION: New York
+  Aws_ACCESS_KEY_ID: FakeKey
+  Aws_SECRET_ACCESS_KEY: Secret
+  Aws_REGION: New York
 production:
   key1: production value 1

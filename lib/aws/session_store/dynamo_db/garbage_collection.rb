@@ -11,9 +11,9 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 
-require 'aws-sdk-v1'
+require 'aws-sdk'
 
-module AWS::SessionStore::DynamoDB
+module Aws::SessionStore::DynamoDB
   # Collects and deletes unwanted sessions based on
   # their creation and update dates.
   module GarbageCollection
@@ -34,7 +34,7 @@ module AWS::SessionStore::DynamoDB
     # @option (see Configuration#initialize)
     # @api private
     def load_config(options = {})
-      AWS::SessionStore::DynamoDB::Configuration.new(options)
+      Aws::SessionStore::DynamoDB::Configuration.new(options)
     end
 
     # Sets scan filter attributes based on attributes specified.
@@ -114,7 +114,7 @@ module AWS::SessionStore::DynamoDB
     # @api private
     def oldest_date(sec)
       hash = {}
-      hash[:attribute_value_list] = [:n => "#{((Time.now - sec).to_f)}"]
+      hash[:attribute_value_list] = ["#{((Time.now - sec).to_f)}"]
       hash[:comparison_operator] = 'LT'
       hash
     end

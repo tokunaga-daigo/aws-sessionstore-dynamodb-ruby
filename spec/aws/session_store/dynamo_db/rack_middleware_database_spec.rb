@@ -13,7 +13,7 @@
 
 require 'spec_helper'
 
-module AWS
+module Aws
   module SessionStore
     module DynamoDB
       describe RackMiddleware do

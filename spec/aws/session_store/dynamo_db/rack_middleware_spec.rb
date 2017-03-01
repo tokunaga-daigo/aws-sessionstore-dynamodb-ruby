@@ -13,7 +13,7 @@
 
 require 'spec_helper'
 
-module AWS
+module Aws
   module SessionStore
     module DynamoDB
       describe RackMiddleware do
@@ -46,7 +46,7 @@ module AWS
         end
 
         let(:dynamo_db_client) do
-          client = double('AWS::DynamoDB::Client')
+          client = double('Aws::DynamoDB::Client')
           client.stub(:delete_item) { 'Deleted' }
           client.stub(:list_tables) { {:table_names => ['Sessions']} }
           client.stub(:get_item) do
