@@ -15,7 +15,7 @@
 module Aws
   module SessionStore
     module DynamoDB
-      VERSION = "0.5.9.6"
+      VERSION = "0.5.9.7"
     end
   end
 end
