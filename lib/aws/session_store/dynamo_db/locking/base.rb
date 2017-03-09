@@ -24,7 +24,7 @@ module Aws::SessionStore::DynamoDB::Locking
 
     # Updates session in database
     def set_session_data(env, sid, session, options = {})
-      return false if session.empty?
+      # return false if session.empty?
       packed_session = pack_data(session)
       handle_error(env) do
         save_opts = update_opts(env, sid, packed_session, options)
