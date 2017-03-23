@@ -68,7 +68,7 @@ module Aws::SessionStore::DynamoDB
       :lock_max_wait_time => 1,
       :secret_key => nil,
       :api_version => '2012-08-10',
-      :expire_in => nil
+      :expire_in => 2.hour
     }
 
     # @return [String] Session table name.
