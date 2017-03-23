@@ -115,19 +115,23 @@ module Aws::SessionStore::DynamoDB::Locking
     end
 
     # Update client with current time attribute.
-    def updated_at
-      { :value => "#{(Time.now).to_f}", :action  => "PUT" }
+    def updated_at(offset = 0)
+      { :value => "#{(Time.now).to_f + offset}", :action  => "PUT" }
     end
 
     # Attribute for creation of session.
     def created_attr
-      { "created_at" => updated_at }
+      {
+        "created_at" => updated_at,
+        "expired_at" => updated_at(@config.expire_in)
+      }
     end
 
     # Attribute for updating session.
     def updated_attr
       {
-        "updated_at" => updated_at
+        "updated_at" => updated_at,
+        "expired_at" => updated_at(@config.expire_in)
       }
     end
 

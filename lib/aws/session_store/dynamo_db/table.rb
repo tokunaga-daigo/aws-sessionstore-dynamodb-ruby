@@ -27,7 +27,9 @@ module Aws::SessionStore::DynamoDB
           throughput(config.read_capacity, config.write_capacity)
         )
       config.dynamo_db_client.create_table(ddb_options)
-      logger << "Table #{config.table_name} created, waiting for activation...\n"
+      logger << "Table #{config.table_name} created, waiting for update TimeToLive...\n"
+      set_ttl(config)
+      logger << "Table #{config.table_name} updated, waiting for activation...\n"
       block_until_created(config)
       logger << "Table #{config.table_name} is now ready to use.\n"
     rescue Aws::DynamoDB::Errors::ResourceInUseException
@@ -92,6 +94,28 @@ module Aws::SessionStore::DynamoDB
 
         sleep 10
       end
+    end
+
+    # @api private
+    def set_ttl(config)
+      return unless config.expire_in.present?
+      updated = false
+      until updated
+        params = {
+          table_name: config.table_name, # required
+          time_to_live_specification: { # required
+            enabled: true, # required
+            attribute_name: 'expired_at', # required
+          },
+        }
+        config.dynamo_db_client.update_time_to_live(params)
+        response = config.dynamo_db_client.describe_time_to_live(table_name: config.table_name)
+        updated = response.time_to_live_description.time_to_live_status == 'ENABLED'
+
+        sleep 3
+      end
+    rescue
+      logger << "Failed update TimeToLive.\n"
     end
 
   end

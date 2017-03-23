@@ -67,7 +67,8 @@ module Aws::SessionStore::DynamoDB
       :lock_retry_delay => 500,
       :lock_max_wait_time => 1,
       :secret_key => nil,
-      :api_version => '2012-08-10'
+      :api_version => '2012-08-10',
+      :expire_in => nil
     }
 
     # @return [String] Session table name.
@@ -133,6 +134,9 @@ module Aws::SessionStore::DynamoDB
     # @return [Integer] Maximum time in seconds to wait to acquire lock
     #   before giving up.
     attr_reader :lock_max_wait_time
+
+    # @return [Integer] TimeToLive epoc time value
+    attr_reader :expire_in
 
 
     # Provides configuration object that allows access to options defined
